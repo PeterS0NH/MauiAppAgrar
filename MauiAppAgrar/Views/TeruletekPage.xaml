@@ -1,0 +1,72 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiAppAgrar.ViewModels"
+             xmlns:models="clr-namespace:MauiAppAgrar.Models"
+             x:Class="MauiAppAgrar.Views.TeruletekPage"
+             x:DataType="vm:TeruletekViewModel"
+             Title="Területek"
+             BackgroundColor="#F1F8E9">
+
+    <Grid RowDefinitions="Auto, Auto, *" Padding="10" RowSpacing="10">
+
+        <Border Grid.Row="0" BackgroundColor="White" Padding="10" Stroke="#C8E6C9">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Új terület rögzítése" TextColor="#2E7D32" FontAttributes="Bold" FontSize="16"/>
+
+                <Entry Placeholder="Terület neve" Text="{Binding UjNev}" TextColor="Black" BackgroundColor="#F1F8E9" PlaceholderColor="Gray"/>
+                <Grid ColumnDefinitions="*,*">
+                    <Entry Grid.Column="0" Placeholder="Méret (ha)" Text="{Binding UjMeret}" Keyboard="Numeric" TextColor="Black" BackgroundColor="#F1F8E9" PlaceholderColor="Gray"/>
+                    <Entry Grid.Column="1" Placeholder="Tulajdonos" Text="{Binding UjTulaj}" TextColor="Black" BackgroundColor="#F1F8E9" PlaceholderColor="Gray"/>
+                </Grid>
+
+                <Button Text="HOZZÁADÁS" Command="{Binding HozzaadCommand}" BackgroundColor="#2E7D32" TextColor="White" FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Grid.Column="0" Text="Megosztás" Command="{Binding MegosztasCommand}" BackgroundColor="#2E7D32" TextColor="White"/>
+            <Button Grid.Column="1" Text="Törlés" Command="{Binding TorlesCommand}" BackgroundColor="#D32F2F" TextColor="White"/>
+        </Grid>
+
+        <CollectionView Grid.Row="2" 
+                        ItemsSource="{Binding Teruletek}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding KijeloltTerulet, Mode=TwoWay}">
+
+            <CollectionView.EmptyView>
+                <Label Text="Nincs rögzített terület." TextColor="Gray" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Terulet">
+                    <Border Margin="0,5" Padding="10" Stroke="#C8E6C9">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="White" />
+                                        <Setter Property="Stroke" Value="#C8E6C9" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#E8F5E9" />
+                                        <Setter Property="Stroke" Value="#2E7D32" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding Nev}" FontAttributes="Bold" FontSize="18" TextColor="#1B5E20"/>
+                                <Label Text="{Binding Tulajdonos}" FontSize="14" TextColor="#4E342E"/>
+                            </VerticalStackLayout>
+                            <Label Grid.Column="1" Text="{Binding NagysagHa, StringFormat='{0} ha'}" TextColor="#5D4037" VerticalOptions="Center" FontAttributes="Bold"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

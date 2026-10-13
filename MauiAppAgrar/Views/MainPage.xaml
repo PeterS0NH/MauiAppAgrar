@@ -1,0 +1,103 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiAppAgrar.ViewModels"
+             xmlns:models="clr-namespace:MauiAppAgrar.Models"
+             x:Class="MauiAppAgrar.Views.MainPage"
+             x:DataType="vm:MainViewModel"
+             Title="Mezőgazdasági Napló"
+             BackgroundColor="#F1F8E9">
+
+    <Grid RowDefinitions="Auto, Auto, *" Padding="15" RowSpacing="20">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="10">
+            <Button Text="Új Munka Rögzítése" Clicked="OnUjMunkaClicked" FontSize="20" FontAttributes="Bold" HeightRequest="60" BackgroundColor="#2E7D32" TextColor="White" CornerRadius="10"/>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="5">
+                <Button Grid.Column="0" Text="Erőgépek" Clicked="OnErogepekClicked" BackgroundColor="#5D4037" TextColor="White" FontSize="13" CornerRadius="8"/>
+                <Button Grid.Column="1" Text="Eszközök" Clicked="OnMunkaeszkozokClicked" BackgroundColor="#5D4037" TextColor="White" FontSize="13" CornerRadius="8"/>
+                <Button Grid.Column="2" Text="Területek" Clicked="OnTeruletekClicked" BackgroundColor="#5D4037" TextColor="White" FontSize="13" CornerRadius="8"/>
+            </Grid>
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Grid.Column="0" Text="Módosítás" Command="{Binding ModositasCommand}" BackgroundColor="#F9A825" TextColor="Black" FontAttributes="Bold"/>
+            <Button Grid.Column="1" Text="Törlés" Command="{Binding TorlesCommand}" BackgroundColor="#D32F2F" TextColor="White" FontAttributes="Bold"/>
+        </Grid>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="5">
+            <Label Text="Elvégzett munkák" FontSize="18" FontAttributes="Bold" TextColor="#1B5E20"/>
+
+            <CollectionView ItemsSource="{Binding ElvegzettMunkak}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding KijeloltMunka}">
+
+                <CollectionView.EmptyView>
+                    <Label Text="Még nincs rögzített munka." TextColor="Gray" HorizontalOptions="Center" Margin="20"/>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Munka">
+                        <Border Margin="0,5" Padding="10" Stroke="#A5D6A7">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                            <Setter Property="Stroke" Value="#A5D6A7" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#E8F5E9" />
+                                            <Setter Property="Stroke" Value="#2E7D32" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Grid ColumnDefinitions="*, Auto">
+                                <VerticalStackLayout Spacing="2" Grid.Column="0">
+                                    <Label Text="{Binding Tipus}" FontSize="16" FontAttributes="Bold" TextColor="#2E7D32"/>
+                                    <Label Text="{Binding Terulet.Nev}" FontSize="13" TextColor="#4E342E"/>
+                                    <Label TextColor="#555" FontSize="12">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Erogep.Nev}"/>
+                                                <Span Text=" + "/>
+                                                <Span Text="{Binding Munkaeszkoz.Nev}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Spacing="3">
+
+                                    <Label Text="{Binding DatumKijelzes}" 
+                                        TextColor="#555" 
+                                        FontSize="11" 
+                                        HorizontalOptions="End"
+                                        FontAttributes="Bold"/>     
+
+                                    <HorizontalStackLayout Spacing="2" HorizontalOptions="End">
+                                        <Label Text="{Binding Kezdet, StringFormat='{0:HH:mm}'}" TextColor="#2E7D32" FontSize="12" FontAttributes="Bold"/>
+                                        <Label Text="-" TextColor="Black" FontSize="12"/>
+                                        <Label Text="{Binding Veg, StringFormat='{0:HH:mm}'}" TextColor="#2E7D32" FontSize="12" FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="2" HorizontalOptions="End">
+                                        <Label Text="Üó:" FontSize="11" TextColor="#5D4037"/>
+                                        <Label Text="{Binding KezdoUzemora}" FontSize="11" TextColor="#5D4037" FontAttributes="Bold"/>
+                                        <Label Text="-" FontSize="11" TextColor="#5D4037"/>
+                                        <Label Text="{Binding ZaroUzemora}" FontSize="11" TextColor="#5D4037" FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
+
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

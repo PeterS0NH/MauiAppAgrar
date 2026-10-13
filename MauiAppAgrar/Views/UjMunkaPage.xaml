@@ -1,0 +1,182 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiAppAgrar.ViewModels"
+             xmlns:models="clr-namespace:MauiAppAgrar.Models"
+             x:Class="MauiAppAgrar.Views.UjMunkaPage"
+             x:DataType="vm:UjMunkaViewModel"
+             Title="Új Munka"
+             BackgroundColor="#F1F8E9">
+
+    <Grid RowDefinitions="*, Auto" Padding="20">
+
+        <Grid Grid.Row="0">
+
+            <VerticalStackLayout IsVisible="{Binding IsStep1}" Spacing="20" VerticalOptions="Center">
+                <Label Text="1. Lépés: Munka típusa" FontSize="22" FontAttributes="Bold" TextColor="#1B5E20" HorizontalOptions="Center"/>
+                <Picker Title="Válassz típust..." SelectedItem="{Binding MunkaTipus}" TextColor="Black" TitleColor="#555" BackgroundColor="White">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Tárcsázás</x:String>
+                            <x:String>Lazítózás</x:String>
+                            <x:String>Szántás</x:String>
+                            <x:String>Kultivátorozás</x:String>
+                            <x:String>Magágyelőkészítés</x:String>
+                            <x:String>Vetés</x:String>
+                            <x:String>Aratás</x:String>
+                            <x:String>Bálázás</x:String>
+                            <x:String>Permetezés</x:String>
+                            <x:String>Műtrágyázás</x:String>
+                            <x:String>Szervestrágyázás</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout IsVisible="{Binding IsStep2}" Spacing="10">
+                <Label Text="2. Lépés: Erőgép" FontSize="22" FontAttributes="Bold" TextColor="#1B5E20"/>
+                <CollectionView ItemsSource="{Binding Erogepek}" SelectionMode="Single" SelectedItem="{Binding ValasztottGep}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Erogep">
+                            <Border Margin="0,5" Padding="10" Stroke="#C8E6C9">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="White" />
+                                                <Setter Property="Stroke" Value="#C8E6C9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="#E8F5E9" />
+                                                <Setter Property="Stroke" Value="#2E7D32" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid ColumnDefinitions="Auto, *">
+                                    <Image Grid.Column="0" Source="{Binding KepUrl}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" Margin="0,0,15,0" BackgroundColor="#F1F8E9"/>
+                                    <Label Grid.Column="1" Text="{Binding Nev}" FontSize="18" TextColor="#1B5E20" VerticalOptions="Center" FontAttributes="Bold"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout IsVisible="{Binding IsStep3}" Spacing="10">
+                <Label Text="3. Lépés: Munkaeszköz" FontSize="22" FontAttributes="Bold" TextColor="#1B5E20"/>
+                <CollectionView ItemsSource="{Binding Eszkozok}" SelectionMode="Single" SelectedItem="{Binding ValasztottEszkoz}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Munkaeszkoz">
+                            <Border Margin="0,5" Padding="10" Stroke="#C8E6C9">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="White" />
+                                                <Setter Property="Stroke" Value="#C8E6C9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="#E8F5E9" />
+                                                <Setter Property="Stroke" Value="#2E7D32" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid ColumnDefinitions="Auto, *">
+                                    <Image Grid.Column="0" Source="{Binding KepUrl}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" Margin="0,0,15,0" BackgroundColor="#F1F8E9"/>
+                                    <Label Grid.Column="1" Text="{Binding Nev}" FontSize="18" TextColor="#1B5E20" VerticalOptions="Center" FontAttributes="Bold"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout IsVisible="{Binding IsStep4}" Spacing="10">
+                <Label Text="4. Lépés: Terület" FontSize="22" FontAttributes="Bold" TextColor="#1B5E20"/>
+                <CollectionView ItemsSource="{Binding Teruletek}" SelectionMode="Single" SelectedItem="{Binding ValasztottTerulet}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Terulet">
+                            <Border Margin="0,5" Padding="15" Stroke="#C8E6C9">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="White" />
+                                                <Setter Property="Stroke" Value="#C8E6C9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="#E8F5E9" />
+                                                <Setter Property="Stroke" Value="#2E7D32" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Nev}" FontSize="18" FontAttributes="Bold" TextColor="#1B5E20"/>
+                                    <Label Text="{Binding NagysagHa, StringFormat='{0} hektár'}" TextColor="#5D4037"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <ScrollView IsVisible="{Binding IsStep5}">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="5. Lépés: Adatok" FontSize="22" FontAttributes="Bold" TextColor="#1B5E20"/>
+
+                    <Border BackgroundColor="White" Padding="10" Stroke="#C8E6C9">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Időpontok" FontAttributes="Bold" TextColor="#2E7D32"/>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="Nap:" VerticalOptions="Center" TextColor="Black"/>
+                                <DatePicker Grid.Column="1" Date="{Binding KezdoDatum}" Format="yyyy.MM.dd" TextColor="Black"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="*, Auto, Auto" RowDefinitions="Auto, Auto">
+                                <Label Grid.Row="0" Grid.Column="0" Text="Kezdés:" VerticalOptions="Center" TextColor="Black"/>
+                                <TimePicker Grid.Row="0" Grid.Column="1" Time="{Binding KezdoIdo}" TextColor="Black"/>
+                                <Label Grid.Row="1" Grid.Column="0" Text="Befejezés:" VerticalOptions="Center" TextColor="Black"/>
+                                <TimePicker Grid.Row="1" Grid.Column="1" Time="{Binding ZaroIdo}" TextColor="Black"/>
+                            </Grid>
+                            <HorizontalStackLayout Spacing="10">
+                                <CheckBox IsChecked="{Binding IsTobbNapos}" Color="#2E7D32"/>
+                                <Label Text="Több napos munka?" VerticalOptions="Center" TextColor="Black">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleTobbNaposCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                            <Grid ColumnDefinitions="*, Auto" IsVisible="{Binding ZaroDatumLathato}">
+                                <Label Text="Befejezés napja:" VerticalOptions="Center" TextColor="Black"/>
+                                <DatePicker Grid.Column="1" Date="{Binding ZaroDatum}" Format="yyyy.MM.dd" TextColor="Black"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="White" Padding="10" Stroke="#C8E6C9">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Üzemóra" FontAttributes="Bold" TextColor="#2E7D32"/>
+                            <Label Text="Kezdő:" TextColor="Black"/>
+                            <Entry Text="{Binding KezdoUzemora}" Keyboard="Numeric" BackgroundColor="#F1F8E9" TextColor="Black"/>
+                            <Label Text="Záró:" TextColor="Black"/>
+                            <Entry Text="{Binding ZaroUzemora}" Keyboard="Numeric" BackgroundColor="#F1F8E9" TextColor="Black"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" Padding="0,10,0,0">
+            <Button Text="VISSZA" Command="{Binding LepesVisszaCommand}" IsEnabled="{Binding VanVissza}" BackgroundColor="#8D6E63" TextColor="White"/>
+            <Button Grid.Column="1" Text="TOVÁBB" Command="{Binding LepesEloreCommand}" IsVisible="{Binding VanTovabb}" BackgroundColor="#2E7D32" TextColor="White"/>
+            <Button Grid.Column="1" Text="MENTÉS" Command="{Binding MentésCommand}" BackgroundColor="#2E7D32" IsVisible="{Binding EzAzUtolsoOldal}" TextColor="White"/>
+        </Grid>
+    </Grid>
+</ContentPage>

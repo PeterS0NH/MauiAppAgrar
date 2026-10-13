@@ -1,0 +1,92 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiAppAgrar.ViewModels"
+             xmlns:models="clr-namespace:MauiAppAgrar.Models"
+             x:Class="MauiAppAgrar.Views.ErogepekPage"
+             x:DataType="vm:ErogepekViewModel"
+             Title="Erőgépek"
+             BackgroundColor="#F1F8E9">
+    <Grid RowDefinitions="Auto, Auto, *" Padding="10" RowSpacing="10">
+
+        <Border Grid.Row="0" BackgroundColor="White" Padding="15" Stroke="#C8E6C9">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Új gép rögzítése" TextColor="#2E7D32" FontAttributes="Bold" FontSize="16"/>
+
+                <Entry Placeholder="Gép neve (pl. John Deere)" 
+                       Text="{Binding UjNev}" 
+                       TextColor="Black" 
+                       PlaceholderColor="Gray"
+                       BackgroundColor="#F1F8E9"/>
+
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                    <Button Grid.Column="0" 
+                            Text="Fénykép / Galéria" 
+                            Command="{Binding KepValasztasCommand}" 
+                            BackgroundColor="#5D4037" 
+                            TextColor="White"/>
+
+                    <Image Grid.Column="1" 
+                           Source="{Binding UjKepUtvonal}" 
+                           HeightRequest="50" WidthRequest="50" 
+                           Aspect="AspectFill"
+                           BackgroundColor="#eee">
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image" Binding="{Binding UjKepUtvonal}" Value="{x:Null}">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                </Grid>
+
+                <Button Text="MENTÉS" Command="{Binding HozzaadCommand}" BackgroundColor="#2E7D32" FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <Button Grid.Row="1" 
+                Text="Kijelölt törlése" 
+                Command="{Binding TorlesCommand}" 
+                BackgroundColor="#D32F2F" 
+                TextColor="White"
+                IsEnabled="{Binding VanKijeloles}" 
+                IsVisible="{Binding VanKijeloles}"/>
+
+        <CollectionView Grid.Row="2" 
+                        ItemsSource="{Binding Erogepek}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding KijeloltGep}">
+
+            <CollectionView.EmptyView>
+                <Label Text="Nincs gép rögzítve." TextColor="Gray" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Erogep">
+                    <Border Margin="0,5" Padding="10" Stroke="#C8E6C9">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="White" />
+                                        <Setter Property="Stroke" Value="#C8E6C9" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#E8F5E9" />
+                                        <Setter Property="Stroke" Value="#2E7D32" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Image Grid.Column="0" Source="{Binding KepUrl}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" Margin="0,0,15,0" BackgroundColor="#F1F8E9"/>
+                            <Label Grid.Column="1" Text="{Binding Nev}" FontSize="18" FontAttributes="Bold" TextColor="#1B5E20" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
